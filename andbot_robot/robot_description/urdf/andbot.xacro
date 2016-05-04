@@ -1,0 +1,464 @@
+<?xml version="1.0"?>
+<!--
+   Created Or Edited on: 23/09/2015
+   Author: Zach
+           qoogood1234@gmail.com
+   Edited on: 29/09/2015
+   Author: Dott. Antonio Mauro Galiano
+ 	   antoniomauro.galiano@gmail.com
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="andbot">
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="length_wheel" value="0.0254"/>
+  <xacro:property name="radius_wheel" value="0.076"/>
+  <xacro:property name="distance_between_wheels" value="0.393"/>
+  <xacro:property name="height_wheels_from_base" value="0.0392"/>
+ 
+ <arg name="gui" value="true"/>
+  <!-- Base footprint link-->
+  <link name="base_footprint"/>
+
+
+      <joint name="camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0 0 1.2" rpy="0 0 0"/>
+
+      </joint>
+ 
+
+      <link name="camera_link">
+        <inertial>
+          <mass value="0.200" />
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
+        </inertial>
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <mesh filename="package://andbot_robot/robot_description/mesh/asus_camera_simple.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <mesh filename="package://andbot_robot/robot_description/mesh/asus_camera_simple.dae"/>
+          </geometry>
+        </collision>
+
+      </link>
+
+
+
+
+      <joint name="camera_depth_joint" type="fixed">
+        <origin xyz="0.0 0.049 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_depth_frame"/>
+      </joint>
+
+      <link name="camera_depth_frame"/>
+
+      <joint name="camera_depth_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_depth_frame" />
+        <child link="camera_depth_optical_frame"/>
+      </joint>
+
+      <link name="camera_depth_optical_frame"/>
+
+      <joint name="camera_rgb_joint" type="fixed">
+        <origin xyz="0.0 0.022 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_rgb_frame"/>
+      </joint>
+
+      <link name="camera_rgb_frame"/>
+
+      <joint name="camera_rgb_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_rgb_frame" />
+        <child link="camera_rgb_optical_frame"/>
+      </joint>
+
+      <link name="camera_rgb_optical_frame"/>
+
+      <gazebo reference="camera_depth_frame">
+        <sensor type="depth" name="camera">
+          <update_rate>20</update_rate>
+          <camera>
+            <horizontal_fov>${62.8 * PI/180.0}</horizontal_fov>
+            <image>
+              <format>R8G8B8</format>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <clip>
+              <near>0.5</near>
+              <far>9</far>
+            </clip>
+          </camera>
+          <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+            <imageTopicName>camera/rgb/image_raw</imageTopicName>
+            <cameraInfoTopicName>camera/rgb/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>camera/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>camera/depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>camera/depth/points</pointCloudTopicName>
+            <frameName>camera_depth_optical_frame</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+
+
+
+
+
+
+
+  <link name="xv11">
+    <collision>
+      <origin xyz="0 0 -0.019" rpy="1.57 0 -1.57"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/lidar_XV-11.STL"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 -0.019" rpy="1.57 0 -1.57"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/lidar_XV-11.STL"/>
+      </geometry>
+       <material name="Green">
+         <color rgba="0 0 1 1"/>
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.07" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+  <gazebo reference="xv11">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <joint name="xv11_fixed" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="xv11"/>
+	
+<!--    plastic model     -->
+
+<origin xyz="-0.022 0 ${radius_wheel+0.135}" rpy="0 0 0"/>
+
+<!--	metal model	-->
+<!--	<origin xyz="0.07 0 ${radius_wheel+0.135}" rpy="0 0 0"/>-->
+  </joint>
+
+<joint name="IMU_joint" type="fixed">
+    <axis xyz="1 0 0"/>      
+        <origin xyz="-0.2 0.15 0.055"/>
+	    <parent link="base_link"/>
+	    <child link="IMU_link"/>
+</joint>
+
+<link name="IMU_link">
+  <inertial>
+      <mass value="0.001"/>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+	      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+  </inertial>
+  <visual>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+	       <box size="0.01 0.01 0.01"/>
+	  </geometry>
+        <material name="red"/>  
+	  </visual>
+	    <collision>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+		 <geometry>
+	          <box size=".01 .01 .01"/>
+		 </geometry>
+	    </collision>
+</link>
+
+<!-- Base link -->
+  <link name="base_link">
+    <collision>
+      <origin xyz="0 0 ${radius_wheel-height_wheels_from_base}" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/base_part.STL"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 ${radius_wheel-height_wheels_from_base}" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/base_part.STL"/>
+      </geometry>
+       <material name="Orange">
+         <color rgba="1 0.5 0 1"/>
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="-0.2 0 0.07" rpy="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="5" ixy="0" ixz="1" iyy="10" iyz="1" izz="1"/>
+    </inertial>
+  </link>
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <!-- Base footprint link / Base link joint -->
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+  </joint>
+
+   <!-- Caster wheel link -->
+  <link name="caster_wheel">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+       <material name="White">
+         <color rgba="1 0 0 1"/>
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="0.0098" ixy="0" ixz="0" iyy="0.0098" iyz="0" izz="0.0098"/>
+    </inertial>
+  </link>
+  <gazebo reference="caster_wheel">
+    <mu1>0.04</mu1>
+    <mu2>0.04</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <!-- Base link / Caster wheel joint -->
+  <joint name="fixed" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_wheel"/>
+    <origin xyz="-0.3 0 0.02" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Body link -->
+<!--
+  <link name="body_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/fake_body.STL"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/fake_body.STL"/>
+      </geometry>
+       <material name="Blue">
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.00" rpy="0 0 0"/>
+      <mass value="3.5"/>
+      <inertia ixx="0.248" ixy="0" ixz="0" iyy="0.248" iyz="0" izz="0.748"/>
+    </inertial>
+  </link>
+  <gazebo reference="body_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <joint name="body_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="body_link"/>
+    <origin xyz="0 0 0.029" rpy="0 0 0"/>
+  </joint>
+-->
+
+  <!-- Left wheel link -->
+  <link name="left_wheel">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL"/>
+      </geometry>
+       <material name="Black">
+         <color rgba="0 0 0 1"/>
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <mass value="0.4"/>
+      <inertia ixx="0.0135" ixy="0" ixz="0" iyy="0.0135" iyz="0" izz="0.025"/>
+    </inertial>
+  </link>
+  <gazebo reference="left_wheel">
+    <mu1 value="2.0"/>
+    <mu2 value="2.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- Base link / Left wheel link joint -->
+  <joint name="left_wheel_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel"/>
+<!--    <origin xyz="0.1 0.125 0.030" rpy="0 0 0"/>-->
+    <origin rpy="0 0 0" xyz="0 ${distance_between_wheels/2} ${radius_wheel}"/>
+
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+  <!-- Left wheel transmission -->
+  <transmission name="left_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_wheel_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="leftMotor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalWhiteuction>1</mechanicalWhiteuction>
+    </actuator>
+  </transmission>
+
+  <!-- Right wheel link -->
+  <link name="right_wheel">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <geometry>
+        <mesh filename="package://andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL"/>
+      </geometry>
+       <material name="Black">
+         <color rgba="0 0 0 1"/>
+       </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 1.570795 1.570795"/>
+      <mass value="0.4"/>
+      <inertia ixx="0.0135" ixy="0" ixz="0" iyy="0.0135" iyz="0" izz="0.025"/>
+    </inertial>
+  </link>
+  <gazebo reference="right_wheel">
+    <mu1 value="2.0"/>
+    <mu2 value="2.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- Base link / Right wheel link joint -->
+  <joint name="right_wheel_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+<!--    <origin xyz="0.1 -0.125 0.030" rpy="0 0 0"/> -->
+    <origin rpy="0 0 0" xyz="0 ${-distance_between_wheels/2} ${radius_wheel}"/>
+
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+  <!-- Right wheel transmission -->
+  <transmission name="right_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="right_wheel_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rightMotor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalWhiteuction>1</mechanicalWhiteuction>
+    </actuator>
+  </transmission>
+
+
+
+
+  <!-- Gazebo ROS control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/andbot</robotNamespace>
+    </plugin>
+  </gazebo>
+  <!-- Differential drive plugin -->
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <leftJoint>right_wheel_hinge</leftJoint>
+      <rightJoint>left_wheel_hinge</rightJoint>
+      <wheelSeparation>${distance_between_wheels}</wheelSeparation>
+      <wheelDiameter>${2*radius_wheel}</wheelDiameter>
+      <torque>30</torque>
+      <commandTopic>andbot/cmd_vel</commandTopic>
+      <odometryTopic>andbot/odom_diffdrive</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+    </plugin>
+  </gazebo>
+<!-- xv11 plugin -->
+  <gazebo reference="xv11">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <material>Gazebo/Blue</material>
+    <sensor type="ray" name="xv11_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>180</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.57</min_angle>
+            <!-- -0.0174532925 -->
+            <max_angle>1.57</max_angle>
+            <!-- 0.0174532925 -->
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>6.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+		       achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+		       stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+		       reading. -->
+          <mean>0.0</mean>
+          <stddev>0.00</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>xv11_scan</topicName>
+        <frameName>xv11</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>
