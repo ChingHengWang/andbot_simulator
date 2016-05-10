@@ -166,14 +166,20 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(rotating_laser src/rotating_laser.cpp)
-target_link_libraries(rotating_laser ${catkin_LIBRARIES})
-
 add_executable(scan_from_sonar src/scan_from_sonar.cpp)
 target_link_libraries(scan_from_sonar ${catkin_LIBRARIES})
 
 add_executable(robot_pose_publisher src/robot_pose_publisher.cpp)
 target_link_libraries(robot_pose_publisher ${catkin_LIBRARIES})
+
+add_executable(gazebo_remap src/gazebo_remap.cpp)
+target_link_libraries(gazebo_remap ${catkin_LIBRARIES})
+
+add_executable(mybot_odometry src/mybot_odometry.cpp)
+target_link_libraries(mybot_odometry ${catkin_LIBRARIES})
+
+add_executable(mybot_base_controller src/mybot_base_controller.cpp)
+target_link_libraries(mybot_base_controller ${catkin_LIBRARIES})
 
 
 

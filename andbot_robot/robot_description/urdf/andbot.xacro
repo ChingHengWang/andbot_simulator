@@ -325,10 +325,10 @@
   <transmission name="head_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="head_joint">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="headMotor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
       <mechanicalWhiteuction>1</mechanicalWhiteuction>
     </actuator>
   </transmission>
@@ -527,10 +527,10 @@
   <transmission name="left_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="left_wheel_hinge">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="leftMotor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
       <mechanicalWhiteuction>1</mechanicalWhiteuction>
     </actuator>
   </transmission>
@@ -581,10 +581,10 @@
   <transmission name="right_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="right_wheel_hinge">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
     </joint>
     <actuator name="rightMotor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
       <mechanicalWhiteuction>1</mechanicalWhiteuction>
     </actuator>
   </transmission>
@@ -907,6 +907,7 @@
     </plugin>
   </gazebo>
   <!-- Differential drive plugin -->
+<!--
   <gazebo>
     <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <alwaysOn>true</alwaysOn>
@@ -922,7 +923,7 @@
       <robotBaseFrame>base_footprint</robotBaseFrame>
     </plugin>
   </gazebo>
-
+-->
 <!-- xv11 plugin -->
   <gazebo reference="xv11">
     <mu1>1.0</mu1>

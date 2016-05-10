@@ -46,9 +46,8 @@
     type="spawner" respawn="false"
     output="screen" ns="/andbot"
     args="joint_state_controller
-      laser_position_controller
-      rightWheel_effort_controller
-      leftWheel_effort_controller"
+      rightWheel_velocity_controller
+      leftWheel_velocity_controller"
   />
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
@@ -56,6 +55,13 @@
     <param name="publish_frequency" value="100"/>
     <remap from="/joint_states" to="/andbot/joint_states" />
   </node>
+  <node name="gazebo_remap" pkg="andbot_robot" type="gazebo_remap" respawn="false" output="screen"/>
+
+  <node pkg="andbot_robot" type="mybot_odometry" name="mybot_odometry" />	
+  <node pkg="andbot_robot" type="mybot_base_controller" name="mybot_base_controller" />	
+
+
+
 <!--   <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0  0 0 1 1 base_link laser 100" /> 
 
  <node pkg="tf" type="static_transform_publisher" name="proximity_broadcaster" args="0.1 0 0.19  0 0 0 1 base_link proximity 100" />-->
