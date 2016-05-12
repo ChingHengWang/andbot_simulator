@@ -181,5 +181,8 @@ target_link_libraries(mybot_odometry ${catkin_LIBRARIES})
 add_executable(mybot_base_controller src/mybot_base_controller.cpp)
 target_link_libraries(mybot_base_controller ${catkin_LIBRARIES})
 
+add_executable(mybot_stop_when_goal_reached src/mybot_stop_when_goal_reached.cpp)
+target_link_libraries(mybot_stop_when_goal_reached ${catkin_LIBRARIES})
+
 
 
