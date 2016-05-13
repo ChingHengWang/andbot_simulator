@@ -59,9 +59,9 @@
   <include file="$(find andbot_robot)/launch/move_base.launch" />
   <node pkg="andbot_robot" type="mybot_odometry" name="mybot_odometry" />	
   <node pkg="andbot_robot" type="mybot_base_controller" name="mybot_base_controller" />	
-
 <!-- send stop cmd when the goal reached -->
   <node pkg="andbot_robot" type="mybot_stop_when_goal_reached" name="mybot_stop_when_goal_reached" />
+  
 
 
 <!--  <include file="$(find andbot_robot)/launch/gmapping.launch" />
