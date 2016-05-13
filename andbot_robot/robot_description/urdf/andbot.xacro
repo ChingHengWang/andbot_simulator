@@ -152,7 +152,7 @@
 <!--	metal model	-->
 <origin xyz="0.07 0 ${radius_wheel+0.135}" rpy="0 0 0"/>
   </joint>
-
+<!--
 <joint name="IMU_joint" type="fixed">
     <axis xyz="1 0 0"/>      
         <origin xyz="-0.2 0.15 0.055"/>
@@ -180,7 +180,7 @@
 		 </geometry>
 	    </collision>
 </link>
-
+-->
 <!-- Base link -->
   <link name="base_link">
     <collision>
