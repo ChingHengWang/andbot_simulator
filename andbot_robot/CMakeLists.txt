@@ -184,6 +184,9 @@ target_link_libraries(mybot_base_controller ${catkin_LIBRARIES})
 add_executable(mybot_stop_when_goal_reached src/mybot_stop_when_goal_reached.cpp)
 target_link_libraries(mybot_stop_when_goal_reached ${catkin_LIBRARIES})
 
+add_executable(debug_tf_tool src/debug_tf_tool.cpp)
+target_link_libraries(debug_tf_tool ${catkin_LIBRARIES})
+
 
 
 
