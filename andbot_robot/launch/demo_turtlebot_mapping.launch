@@ -31,7 +31,9 @@
   	  <remap from="rgb/camera_info" to="/camera/rgb/camera_info"/>
   	  
   	  <!-- output -->
-  	  <remap unless="$(arg version083)" from="grid_map" to="/map"/>
+      <!--  	  
+      <remap unless="$(arg version083)" from="grid_map" to="/map"/>
+      -->
   	  <!-- <remap unless="$(arg version083)" from="proj_map" to="/map"/> -->
 	
 	  <!-- RTAB-Map's parameters: do "rosrun rtabmap rtabmap (double-dash)params" to see the list of available parameters. -->
@@ -66,7 +68,10 @@
 
     <!-- backward compatibility with hydro 0.8.3 only -->
     <node if="$(arg version083)" pkg="rtabmap_ros" type="grid_map_assembler" name="grid_map_assembler">
+    <!--  <remap from="grid_map" to="/grid_map"/>-->
+    <!--
       <remap from="grid_map" to="/map"/>
+    -->
     </node>
     
     <!-- visualization with rtabmapviz -->
