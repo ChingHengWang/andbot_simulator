@@ -63,8 +63,12 @@
   <node pkg="andbot_robot" type="mybot_stop_when_goal_reached" name="mybot_stop_when_goal_reached" />
   
 
-
   <include file="$(find andbot_robot)/launch/gmapping.launch" />
+
+	<node pkg="andbot_robot" type="mybot_xv11_angular_bound_filter" name="mybot_xv11_angular_bound_filter" />
+
+
+
 <!--
   <include file="$(find andbot_robot)/launch/robot_mapping.launch" />
 -->

@@ -6,11 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Global Costmap1
-        - /LaserScan2
-        - /Camera1
-        - /PointCloud21
-        - /Camera3
+        - /LaserScan1
+        - /ProjMap1
         - /MapCloud1
       Splitter Ratio: 0.5
     Tree Height: 586
@@ -193,7 +190,7 @@ Visualization Manager:
       Axis: Z
       Channel Name: x
       Class: rviz/LaserScan
-      Color: 255; 0; 0
+      Color: 255; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
@@ -209,7 +206,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.1
       Style: Flat Squares
-      Topic: /laser
+      Topic: /scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -227,20 +224,38 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
-      Name: Global Costmap
-      Topic: /move_base/global_costmap/FUCQU
+      Enabled: false
+      Name: ProjMap
+      Topic: /rtabmap/proj_map
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
-      Name: Local Costmap
-      Topic: /move_base/local_costmap/FUCQU
+      Enabled: false
+      Name: ProjMap
+      Topic: /rtabmap/proj_map
       Unreliable: false
-      Value: true
+      Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Global Costmap
+      Topic: /move_base/global_costmap/costmap
+      Unreliable: false
+      Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Local Costmap
+      Topic: /move_base/local_costmap/costmap
+      Unreliable: false
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.1
@@ -315,116 +330,6 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 0; 170; 0
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_1
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_10
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_11
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_2
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_3
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_4
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_5
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_6
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_7
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_8
-      Unreliable: false
-      Value: false
-    - Alpha: 0.5
-      Buffer Length: 1
-      Class: rviz/Range
-      Color: 255; 255; 255
-      Enabled: false
-      Name: Range
-      Queue Size: 100
-      Topic: /andbot/range_sonar_9
-      Unreliable: false
-      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -478,7 +383,7 @@ Visualization Manager:
         OrkTable: true
         Planned Path: true
         PointCloud2: true
-        Range: true
+        ProjMap: true
         RobotModel: true
         SLAM Map: true
         TF: true
@@ -496,7 +401,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -513,7 +418,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Class: rviz/Camera
       Enabled: false
       Image Rendering: background and overlay
@@ -537,7 +442,7 @@ Visualization Manager:
         OrkTable: true
         Planned Path: true
         PointCloud2: true
-        Range: true
+        ProjMap: true
         RobotModel: true
         SLAM Map: true
         TF: true
@@ -569,7 +474,7 @@ Visualization Manager:
         OrkTable: true
         Planned Path: true
         PointCloud2: true
-        Range: true
+        ProjMap: true
         RobotModel: true
         SLAM Map: true
         TF: true
@@ -587,7 +492,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -604,7 +509,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -617,7 +522,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: ""
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -634,7 +539,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -652,7 +557,7 @@ Visualization Manager:
       Color Transformer: RGB8
       Download graph: false
       Download map: false
-      Enabled: true
+      Enabled: false
       Filter ceiling (m): 0
       Filter floor (m): 0
       Invert Rainbow: false
@@ -671,7 +576,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -696,22 +601,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 15.1837
+      Distance: 7.71769
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.394338
-        Y: 1.01136
-        Z: -1.37125
+        X: 2.28794
+        Y: -0.469009
+        Z: 0.238656
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2798
+      Pitch: 1.1248
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.21358
+      Yaw: 3.15858
     Saved: ~
 Window Geometry:
   Camera:
@@ -732,4 +637,4 @@ Window Geometry:
     collapsed: true
   Width: 1535
   X: 55
-  Y: -14
+  Y: 14

@@ -187,6 +187,9 @@ target_link_libraries(mybot_stop_when_goal_reached ${catkin_LIBRARIES})
 add_executable(debug_tf_tool src/debug_tf_tool.cpp)
 target_link_libraries(debug_tf_tool ${catkin_LIBRARIES})
 
+add_executable(mybot_xv11_angular_bound_filter src/mybot_xv11_angular_bound_filter.cpp)
+target_link_libraries(mybot_xv11_angular_bound_filter ${catkin_LIBRARIES})
+
 
 
 
