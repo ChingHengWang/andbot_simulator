@@ -21,11 +21,11 @@ catkin_package(
 ## Build ##
 ###########
 
-add_executable(andbot_teleop_joy src/andbot_joy.cpp)
-target_link_libraries(andbot_teleop_joy ${catkin_LIBRARIES})
+#add_executable(andbot_teleop_joy src/andbot_joy.cpp)
+#target_link_libraries(andbot_teleop_joy ${catkin_LIBRARIES})
 
-add_executable(andbot_teleop_key1 src/andbot_teleop_key1.cpp)
-target_link_libraries(andbot_teleop_key1 ${catkin_LIBRARIES})
+#add_executable(andbot_teleop_key1 src/andbot_teleop_key1.cpp)
+#target_link_libraries(andbot_teleop_key1 ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -38,11 +38,11 @@ install(PROGRAMS
 )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS andbot_teleop_joy
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+#install(TARGETS andbot_teleop_joy
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#)
 
 ## Mark all other useful stuff for installation
-install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+#install(DIRECTORY launch
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)

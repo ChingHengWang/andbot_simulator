@@ -67,8 +67,8 @@ def vels(speed,turn):
 if __name__=="__main__":
     settings = termios.tcgetattr(sys.stdin)
     
-    rospy.init_node('andbot')
-    pub = rospy.Publisher('~cmd_vel', Twist, queue_size=5)
+    rospy.init_node('andbot_teleop_key')
+    pub = rospy.Publisher('/andbot/cmd_vel', Twist, queue_size=5)
 
     x = 0
     th = 0

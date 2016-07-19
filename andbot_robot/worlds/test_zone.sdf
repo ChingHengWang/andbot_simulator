@@ -1266,10 +1266,10 @@
           <ray>
             <scan>
               <horizontal>
-                <samples>180</samples>
+                <samples>360</samples>
                 <resolution>1</resolution>
-                <min_angle>-1.57</min_angle>
-                <max_angle>1.57</max_angle>
+                <min_angle>0</min_angle>
+                <max_angle>6.28</max_angle>
               </horizontal>
             </scan>
             <range>
@@ -1284,7 +1284,7 @@
             </noise>
           </ray>
           <plugin name='gazebo_ros_head_hokuyo_controller' filename='libgazebo_ros_laser.so'>
-            <topicName>xv11_scan</topicName>
+            <topicName>scan</topicName>
             <frameName>xv11</frameName>
             <robotNamespace>/</robotNamespace>
           </plugin>
