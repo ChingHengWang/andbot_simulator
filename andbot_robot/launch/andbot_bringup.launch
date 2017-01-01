@@ -61,25 +61,12 @@
 
   <node name="gazebo_remap" pkg="andbot_robot" type="gazebo_remap" respawn="false" output="screen"/>
 
-  <include file="$(find andbot_robot)/launch/move_base.launch" />
-
   <node pkg="andbot_robot" type="mybot_odometry" name="mybot_odometry" />	
   <node pkg="andbot_robot" type="mybot_base_controller" name="mybot_base_controller" />	
 
 <!-- send stop cmd when the goal reached -->
   <node pkg="andbot_robot" type="mybot_stop_when_goal_reached" name="mybot_stop_when_goal_reached" />
 
-  <include file="$(find andbot_robot)/launch/gmapping.launch" />
-<!--
-  <include file="$(find andbot_robot)/launch/robot_mapping.launch" />
--->
-<!--   <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0  0 0 1 1 base_link laser 100" /> 
-
- <node pkg="tf" type="static_transform_publisher" name="proximity_broadcaster" args="0.1 0 0.19  0 0 0 1 base_link proximity 100" />-->
-
-<!--
- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find andbot_robot)/andbot.rviz" />
--->
 
 
 </launch>
