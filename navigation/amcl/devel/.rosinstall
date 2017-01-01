@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/pepper/catkin_ws/src/amcl/devel/setup.sh
