@@ -1,0 +1,6 @@
+<launch>
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find andbot_robot)/map/test_zone.yaml" />
+
+</launch>
+

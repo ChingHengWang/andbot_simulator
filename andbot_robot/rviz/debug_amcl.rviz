@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /LaserScan1
         - /Global Costmap1
         - /LaserScan2
         - /Camera1
@@ -32,7 +33,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -209,7 +210,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.1
       Style: Flat Squares
-      Topic: /laser
+      Topic: /xv11_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -695,7 +696,7 @@ Visualization Manager:
         Z: -1.37331
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5698
+      Pitch: 1.5648
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
       Yaw: 3.13358
