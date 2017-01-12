@@ -67,6 +67,45 @@
 #include <boost/foreach.hpp>
 #define NEW_UNIFORM_SAMPLING 1
 
+//ZACH START
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <opencv/cv.h>
+#include <opencv/cvaux.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace cv;
+using namespace std;
+
+void drawPose(Mat& img_map, float x, float y, float yaw, int r, int g, int b)
+{
+    float origin_x = -16.2;
+    float origin_y = -17.8;
+    float res = 0.05;
+    Point pt;
+    pt.x = (x - origin_x) / res;
+    pt.y = img_map.rows - (y - origin_y) / res;
+    cv::circle(img_map, pt, 10, Scalar(b,g,r));
+}
+void drawParticle(Mat& img_map, float x, float y, float yaw, int r, int g, int b)
+{
+    float origin_x = -16.2;
+    float origin_y = -17.8;
+    float res = 0.05;
+    Point pt;
+    pt.x = (x - origin_x) / res;
+    pt.y = img_map.rows - (y - origin_y) / res;
+    cv::circle(img_map, pt, 1, Scalar(b,g,r));
+}
+
+Mat img_map;
+Mat img_map_show;
+Size dsize;
+//ZACH END
+
+
 using namespace amcl;
 FILE *m_file_pose_amcl = fopen("/home/pepper/data/pose.txt", "w");
 
@@ -291,6 +330,21 @@ main(int argc, char** argv)
   // Override default sigint handler
   signal(SIGINT, sigintHandler);
 
+  //ZACH START
+/*
+  	cv::namedWindow("map");
+  	img_map = imread("/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/map/test_zone.pgm");
+  	float scale = 0.8;
+  	dsize = Size(img_map.cols*scale,img_map.rows*scale);
+  	img_map_show = Mat(dsize,CV_8UC3);
+  	resize(img_map, img_map_show, dsize);
+
+  	imshow("map", img_map_show);
+  	waitKey(0);
+*/
+  //ZACH END
+
+
   // Make our node available to sigintHandler
   amcl_node_ptr.reset(new AmclNode());
 
@@ -331,17 +385,17 @@ AmclNode::AmclNode() :
   private_nh_.param("first_map_only", first_map_only_, false);
 
   double tmp;
-  private_nh_.param("gui_publish_rate", tmp, -1.0);
+  private_nh_.param("gui_publish_rate", tmp, 10.0);
   gui_publish_period = ros::Duration(1.0/tmp);
   private_nh_.param("save_pose_rate", tmp, 0.5);
   save_pose_period = ros::Duration(1.0/tmp);
 
   private_nh_.param("laser_min_range", laser_min_range_, -1.0);
-  private_nh_.param("laser_max_range", laser_max_range_, -1.0);
-  private_nh_.param("laser_max_beams", max_beams_, 30);
-  private_nh_.param("min_particles", min_particles_, 100);
-  private_nh_.param("max_particles", max_particles_, 5000);
-  private_nh_.param("kld_err", pf_err_, 0.01);
+  private_nh_.param("laser_max_range", laser_max_range_, 6.0);
+  private_nh_.param("laser_max_beams", max_beams_, 80);
+  private_nh_.param("min_particles", min_particles_, 500);
+  private_nh_.param("max_particles", max_particles_, 2000);
+  private_nh_.param("kld_err", pf_err_, 0.05);
   private_nh_.param("kld_z", pf_z_, 0.99);
   private_nh_.param("odom_alpha1", alpha1_, 0.2);
   private_nh_.param("odom_alpha2", alpha2_, 0.2);
@@ -354,10 +408,10 @@ AmclNode::AmclNode() :
   private_nh_.param("beam_skip_threshold", beam_skip_threshold_, 0.3);
   private_nh_.param("beam_skip_error_threshold_", beam_skip_error_threshold_, 0.9);
 
-  private_nh_.param("laser_z_hit", z_hit_, 0.95);
-  private_nh_.param("laser_z_short", z_short_, 0.1);
+  private_nh_.param("laser_z_hit", z_hit_, 0.5);
+  private_nh_.param("laser_z_short", z_short_, 0.05);
   private_nh_.param("laser_z_max", z_max_, 0.05);
-  private_nh_.param("laser_z_rand", z_rand_, 0.05);
+  private_nh_.param("laser_z_rand", z_rand_, 0.5);
   private_nh_.param("laser_sigma_hit", sigma_hit_, 0.2);
   private_nh_.param("laser_lambda_short", lambda_short_, 0.1);
   private_nh_.param("laser_likelihood_max_dist", laser_likelihood_max_dist_, 2.0);
@@ -393,16 +447,16 @@ AmclNode::AmclNode() :
     odom_model_type_ = ODOM_MODEL_DIFF;
   }
 
-  private_nh_.param("update_min_d", d_thresh_, 0.2);
-  private_nh_.param("update_min_a", a_thresh_, M_PI/6.0);
+  private_nh_.param("update_min_d", d_thresh_, 0.25);
+  private_nh_.param("update_min_a", a_thresh_, 0.35);
   private_nh_.param("odom_frame_id", odom_frame_id_, std::string("odom"));
-  private_nh_.param("base_frame_id", base_frame_id_, std::string("base_link"));
+  private_nh_.param("base_frame_id", base_frame_id_, std::string("base_footprint"));
   private_nh_.param("global_frame_id", global_frame_id_, std::string("map"));
-  private_nh_.param("resample_interval", resample_interval_, 2);
+  private_nh_.param("resample_interval", resample_interval_, 1);
   double tmp_tol;
-  private_nh_.param("transform_tolerance", tmp_tol, 0.1);
-  private_nh_.param("recovery_alpha_slow", alpha_slow_, 0.001);
-  private_nh_.param("recovery_alpha_fast", alpha_fast_, 0.1);
+  private_nh_.param("transform_tolerance", tmp_tol, 1.0);
+  private_nh_.param("recovery_alpha_slow", alpha_slow_, 0.0);
+  private_nh_.param("recovery_alpha_fast", alpha_fast_, 0.0);
   private_nh_.param("tf_broadcast", tf_broadcast_, true);
 
   transform_tolerance_.fromSec(tmp_tol);
@@ -760,6 +814,7 @@ AmclNode::checkLaserReceived(const ros::TimerEvent& event)
     ROS_WARN("No laser scan received (and thus no pose updates have been published) for %f seconds.  Verify that data is being published on the %s topic.",
              d.toSec(),
              ros::names::resolve(scan_topic_).c_str());
+
   }
 }
 
@@ -1038,6 +1093,7 @@ AmclNode::setMapCallback(nav_msgs::SetMap::Request& req,
 void
 AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
 {
+
   last_laser_received_ts_ = ros::Time::now();
   if( map_ == NULL ) {
     return;
@@ -1087,7 +1143,7 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
     laser_index = frame_to_laser_[laser_scan->header.frame_id];
   }
 
-  // Where was the robot when this scan was taken?
+  // Where was the robot when this scan was taken? KEY_ZACH
   pf_vector_t pose;
   if(!getOdomPose(latest_odom_pose_, pose.v[0], pose.v[1], pose.v[2],
                   laser_scan->header.stamp, base_frame_id_))
@@ -1158,10 +1214,16 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
   }
 
   bool resampled = false;
+  {
+	//ZACH ADD
+	AMCLLaserData ldata;
+	//ZACH ADD END
+
+
   // If the robot has moved, update the filter
   if(lasers_update_[laser_index])
   {
-    AMCLLaserData ldata;
+    //ZACH AMCLLaserData ldata;
     ldata.sensor = lasers_[laser_index];
     ldata.range_count = laser_scan->ranges.size();
 
@@ -1221,9 +1283,9 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
       ldata.ranges[i][1] = angle_min +
               (i * angle_increment);
     }
-
+//ZACH KEY!!!!!!!!!
     lasers_[laser_index]->UpdateSensor(pf_, (AMCLSensorData*)&ldata);
-
+//ZACH KEY!!!!!!!!!
     lasers_update_[laser_index] = false;
 
     pf_odom_pose_ = pose;
@@ -1251,8 +1313,21 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
                                  tf::Vector3(set->samples[i].pose.v[0],
                                            set->samples[i].pose.v[1], 0)),
                         cloud_msg.poses[i]);
+        //ZACH_START
+        /*
+        drawParticle(img_map, cloud_msg.poses[i].position.x, cloud_msg.poses[i].position.y, 0, 0, 255, 0);
+        */
+        //ZACH_END
       }
+      //ZACH_START
+      /*
+      resize(img_map, img_map_show, dsize);
+      imshow("map", img_map_show);
+      waitKey(1);
       particlecloud_pub_.publish(cloud_msg);
+      */
+      //ZACH_END
+	  particlecloud_pub_.publish(cloud_msg);
     }
   }
 
@@ -1285,7 +1360,12 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
         max_weight_hyp = hyp_count;
       }
     }
-
+    //pf_vector_t result_score;
+    double score=0;
+    score = lasers_[laser_index]->particleScanMatch((AMCLLaserData*)&ldata, hyps[max_weight_hyp].pf_pose_mean, 0.1);
+    //ROS_INFO("good is %f  eff is %f  total is %f",result_score.v[0],result_score.v[1],result_score.v[2]);
+    ROS_INFO("score is %f ",score);
+//scan_match
     if(max_weight > 0.0)
     {
       ROS_DEBUG("Max weight pose: %.3f %.3f %.3f",
@@ -1347,6 +1427,14 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
       }
 
       pose_pub_.publish(p);
+      //ZACH_START
+      /*
+      drawPose(img_map, p.pose.pose.position.x, p.pose.pose.position.y, amcl_yaw, 255, 0, 0);
+      resize(img_map, img_map_show, dsize);
+      imshow("map", img_map_show);
+      waitKey(1);
+      */
+      //ZACH_END
       last_published_pose = p;
 
       ROS_DEBUG("New pose: %6.3f %6.3f %6.3f",
@@ -1419,6 +1507,8 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
       this->savePoseToServer();
       save_pose_last_time = now;
     }
+  }
+
   }
 
 }

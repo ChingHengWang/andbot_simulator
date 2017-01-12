@@ -417,7 +417,7 @@ void pf_update_resample(pf_t *pf)
       //景恆ZACH add 1205 END
 
       // Add sample to list
-      sample_b->pose = sample_a->pose;
+      //sample_b->pose = sample_a->pose;
     }
 
     sample_b->weight = 1.0;

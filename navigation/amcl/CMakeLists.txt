@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 SET(CMAKE_BUILD_TYPE "Debug")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+#SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+#SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 project(amcl)
 
@@ -15,6 +15,9 @@ find_package(catkin REQUIRED
         )
 
 find_package(Boost REQUIRED)
+
+#ZACH
+FIND_PACKAGE( OpenCV 2.4.8 REQUIRED )
 
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
@@ -64,6 +67,8 @@ target_link_libraries(amcl
     amcl_sensors amcl_map amcl_pf
     ${Boost_LIBRARIES}
     ${catkin_LIBRARIES}
+#ZACH
+    ${OpenCV_LIBS}
 )
 
 install( TARGETS

@@ -94,6 +94,10 @@ class AMCLLaser : public AMCLSensor
   public: void SetLaserPose(pf_vector_t& laser_pose) 
           {this->laser_pose = laser_pose;}
 
+  //ZACH ADD
+  public: double particleScanMatch(AMCLLaserData *data, pf_vector_t pose, double threshold);
+  //ZACH ADD END
+
   // Determine the probability for the given pose
   private: static double BeamModel(AMCLLaserData *data, 
                                    pf_sample_set_t* set);

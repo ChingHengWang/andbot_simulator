@@ -506,3 +506,60 @@ void AMCLLaser::reallocTempData(int new_max_samples, int new_max_obs){
     temp_obs[k] = new double[max_obs]();
   }
 }
+
+//ZACH ADD
+double AMCLLaser::particleScanMatch(AMCLLaserData *data, pf_vector_t pose, double threshold)
+{
+  AMCLLaser *self;
+  int i, j, step, eff_p=0, total_p=0, good_p=0;
+  double z;
+  double obs_range, obs_bearing;
+  pf_sample_t *sample;
+  pf_vector_t hit;
+  pf_vector_t result;
+
+  self = (AMCLLaser*) data->sensor;
+
+  // Take account of the laser pose relative to the robot
+  pose = pf_vector_coord_add(self->laser_pose, pose);
+
+  step = 3;
+  for (i = 0; i < data->range_count; i += step)
+  {
+	total_p++;
+    obs_range = data->ranges[i][0];
+    obs_bearing = data->ranges[i][1];
+
+    // This model ignores max range readings
+    if(obs_range >= data->range_max)
+      continue;
+
+    // Check for NaN
+    if(obs_range != obs_range)
+      continue;
+    eff_p++;
+    // Compute the endpoint of the beam
+    hit.v[0] = pose.v[0] + obs_range * cos(pose.v[2] + obs_bearing);
+    hit.v[1] = pose.v[1] + obs_range * sin(pose.v[2] + obs_bearing);
+
+    // Convert to map grid coords.
+    int mi, mj;
+    mi = MAP_GXWX(self->map, hit.v[0]);
+    mj = MAP_GYWY(self->map, hit.v[1]);
+
+    // Get distance from the hit to closest obstacle.
+    // Off-map penalized as max distance
+    if(!MAP_VALID(self->map, mi, mj))
+      z = self->map->max_occ_dist;
+    else
+      z = self->map->cells[MAP_INDEX(self->map,mi,mj)].occ_dist;
+
+    if(z <= threshold)
+      good_p++;
+  }
+  result.v[0] = good_p;
+  result.v[1] = eff_p;
+  result.v[2] = total_p;
+  return (double)good_p/eff_p;
+}
+//ZACH ADD END
