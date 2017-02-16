@@ -1,6 +1,5 @@
 <launch>
   <!-- Map server -->
-  <arg name="map_file" default="$(env TURTLEBOT_MAP_FILE)"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(find andbot_robot)/map/test_zone.yaml" />
 
   <!-- AMCL -->

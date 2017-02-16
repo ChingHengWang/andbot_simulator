@@ -1,0 +1,22 @@
+#include <vector>
+
+namespace costmap_2d
+{
+
+class Costmap2DALB
+{
+public:
+  Costmap2DALB(std::string name);
+  ~Costmap2DALB();
+  void start();
+  void stop();
+  void pause();
+  
+protected:
+  LayeredCostmap* layered_costmap_;
+  std::string name_;
+}
+
+
+
+}

@@ -49,7 +49,7 @@
 #include <nav_msgs/GetPlan.h>
 #include <navfn/potarr_point.h>
 #include <pcl_ros/publisher.h>
-
+#include <alb/header.h>
 namespace navfn {
   /**
    * @class NavfnROS
@@ -82,6 +82,10 @@ namespace navfn {
        * @param  name The name of this planner
        * @param  costmap A pointer to the ROS wrapper of the costmap to use for planning
        */
+//ALB
+      void initializeNoRos(costmap_2d::Costmap2D* costmap);
+//ALB END
+
       void initialize(std::string name, costmap_2d::Costmap2DROS* costmap_ros);
 
       /**
@@ -102,6 +106,8 @@ namespace navfn {
       bool makePlan(const geometry_msgs::PoseStamped& start, 
           const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan);
 
+      bool makePlanNoRos(const Header::PoseStamped& start,const Header::PoseStamped& goal,double tolerance, std::vector<Header::PoseStamped>& plan);
+
       /**
        * @brief Given a goal pose in the world, compute a plan
        * @param start The start pose 
@@ -110,6 +116,7 @@ namespace navfn {
        * @param plan The plan... filled by the planner
        * @return True if a valid plan was found, false otherwise
        */
+
       bool makePlan(const geometry_msgs::PoseStamped& start, 
           const geometry_msgs::PoseStamped& goal, double tolerance, std::vector<geometry_msgs::PoseStamped>& plan);
 
@@ -126,6 +133,9 @@ namespace navfn {
        * @param plan The plan... filled by the planner
        * @return True if a valid plan was found, false otherwise
        */
+
+      bool getPlanFromPotentialNoRos(const Header::PoseStamped& goal, std::vector<Header::PoseStamped>& plan);
+
       bool getPlanFromPotential(const geometry_msgs::PoseStamped& goal, std::vector<geometry_msgs::PoseStamped>& plan);
 
       /**

@@ -16,6 +16,9 @@ find_package(catkin REQUIRED
         visualization_msgs
         )
 
+FIND_PACKAGE( OpenCV 2.4.8 REQUIRED )
+
+
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 remove_definitions(-DDISABLE_LIBUSB-1.0)
@@ -25,6 +28,11 @@ include_directories(
     ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
 )
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/debug/include)
+
+
+
 add_definitions(${EIGEN3_DEFINITIONS})
 
 
@@ -57,6 +65,7 @@ catkin_package(
 add_library (navfn src/navfn.cpp src/navfn_ros.cpp)
 target_link_libraries(navfn
     ${catkin_LIBRARIES}
+    ${OpenCV_LIBS}
     )
 add_dependencies(navfn ${PROJECT_NAME}_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
 
