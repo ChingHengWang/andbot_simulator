@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(move_base)
-
+#SET(CMAKE_CXX_FLAGS "-O2 -pipe -fPIC -Wall -fmessage-length=0") 
 find_package(catkin REQUIRED
     COMPONENTS
         cmake_modules
@@ -13,6 +13,9 @@ find_package(catkin REQUIRED
         nav_core
         tf
 )
+FIND_PACKAGE( OpenCV 2.4.8 REQUIRED )
+
+
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN3_DEFINITIONS})
 
@@ -32,7 +35,11 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
 )
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/debug/include)
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/my_navfn/include)
 
+LINK_DIRECTORIES(/home/zach/catkin_ws/src/andbot_simulator/navigation/my_navfn/lib)
 # move_base
 add_library(move_base
   src/move_base.cpp
@@ -40,6 +47,8 @@ add_library(move_base
 target_link_libraries(move_base
     ${Boost_LIBRARIES}
     ${catkin_LIBRARIES}
+    ${OpenCV_LIBS}
+    libmy_navfn.so
     )
 add_dependencies(move_base move_base_gencfg)
 add_dependencies(move_base geometry_msgs_generate_messages_cpp)

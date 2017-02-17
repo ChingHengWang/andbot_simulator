@@ -58,6 +58,7 @@
 
 #include <dynamic_reconfigure/server.h>
 #include "move_base/MoveBaseConfig.h"
+#include <my_navfn/navfn_no_ros.h>
 
 namespace move_base {
   //typedefs to help us out with the action server so that we don't hace to type so much
@@ -179,7 +180,7 @@ namespace move_base {
 
       boost::shared_ptr<nav_core::BaseLocalPlanner> tc_;
       costmap_2d::Costmap2DROS* planner_costmap_ros_, *controller_costmap_ros_;
-
+      navfn::NavfnNoROS* test_planner_;
       boost::shared_ptr<nav_core::BaseGlobalPlanner> planner_;
       std::string robot_base_frame_, global_frame_;
 
@@ -209,6 +210,8 @@ namespace move_base {
       std::vector<geometry_msgs::PoseStamped>* planner_plan_;
       std::vector<geometry_msgs::PoseStamped>* latest_plan_;
       std::vector<geometry_msgs::PoseStamped>* controller_plan_;
+      std::vector<Header::PoseStamped>* test_plan_;
+
 
       //set up the planner's thread
       bool runPlanner_;

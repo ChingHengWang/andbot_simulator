@@ -1,3 +1,7 @@
+#ifndef DEBUG_CV_DEBUG_HEADER_H_
+#define DEBUG_CV_DEBUG_HEADER_H_
+
+
 #include <opencv/cv.h>
 #include <opencv/cvaux.hpp>
 #include <opencv2/core/core.hpp>
@@ -99,4 +103,4 @@ void drawPointWithSize(cv::Mat& img_map, float x, float y, float yaw, int r, int
     cv::circle(img_map, pt, point_size, cv::Scalar(b,g,r));
 }
 
-
+#endif
