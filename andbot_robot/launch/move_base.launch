@@ -26,11 +26,15 @@
 
   <!-- Run Move Base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find andbot_robot)/config/move_base_params.yaml" command="load"/>
     <rosparam file="$(find andbot_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find andbot_robot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find andbot_robot)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find andbot_robot)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find andbot_robot)/config/base_local_planner_params.yaml" command="load" />
+    <!--rosparam file="$(find andbot_robot)/config/base_local_planner_params.yaml" command="load" /-->
+    <rosparam file="$(find andbot_robot)/config/dwa_local_planner_params.yaml" command="load" />
+
+
     <remap from="/cmd_vel" to="/andbot/cmd_vel"/>
     <remap from="/odom" to="/andbot/odom_diffdrive"/>
   </node>

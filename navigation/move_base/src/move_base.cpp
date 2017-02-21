@@ -113,9 +113,9 @@ namespace move_base {
     //create the ros wrapper for the planner's costmap... and initializer a pointer we'll use with the underlying map
     planner_costmap_ros_ = new costmap_2d::Costmap2DROS("global_costmap", tf_);
     planner_costmap_ros_->pause();
-    planner_costmap_ros_->start();
+    //planner_costmap_ros_->start();
 
-  #if 1
+  #if 0
 /////////////////////////////////////////////// ZACH DEBUG
 
     costmap_2d::Costmap2D* tmp_costmap_;
@@ -594,16 +594,22 @@ namespace move_base {
   }
 
   void MoveBase::planThread(){
-    ROS_DEBUG_NAMED("move_base_plan_thread","Starting planner thread...");
+    printf("move_base_plan_thread Starting planner thread...\n");
     ros::NodeHandle n;
     ros::Timer timer;
     bool wait_for_wake = false;
+
     boost::unique_lock<boost::mutex> lock(planner_mutex_);
+    printf("move_base_plan_thread lock free\n");
+
+
     while(n.ok()){
+    printf("move_base_plan_thread In Loop...\n");
+
       //check if we should run the planner (the mutex is locked)
       while(wait_for_wake || !runPlanner_){
         //if we should not be running the planner then suspend this thread
-        ROS_DEBUG_NAMED("move_base_plan_thread","Planner thread is suspending");
+        printf("move_base_plan_thread Planner thread is suspending\n");
         planner_cond_.wait(lock);
         wait_for_wake = false;
       }
@@ -612,12 +618,12 @@ namespace move_base {
       //time to plan! get a copy of the goal and unlock the mutex
       geometry_msgs::PoseStamped temp_goal = planner_goal_;
       lock.unlock();
-      ROS_DEBUG_NAMED("move_base_plan_thread","Planning...");
+      printf("move_base_plan_thread Planning...\n");
 
       //run planner
       planner_plan_->clear();
-      //bool gotPlan = n.ok() && makePlan(temp_goal, *planner_plan_);
-      bool gotPlan = true;
+      bool gotPlan = n.ok() && makePlan(temp_goal, *planner_plan_);
+      //bool gotPlan = true;
 
     //run planner
     test_plan_->clear();
@@ -640,10 +646,6 @@ namespace move_base {
     test_planner_->makePlanNoRos(startH,goalH,0.0,*test_plan_);
 
 ////////////////////////////////////////////
-    boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(planner_costmap_ros_->getCostmap()->getMutex()));
-
-
-
     costmap_2d::Costmap2D* costmap_;
     costmap_ = planner_costmap_ros_-> getCostmap();
 
@@ -675,12 +677,10 @@ namespace move_base {
       //drawPose(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res);
       drawPointWithSize(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res,2);
     }
-
-
-
-
+    drawPointWithSize(M_3,start.pose.position.x,start.pose.position.y,0,255,255,0,origin_x,origin_y,res,10);
     imshow("costmap ", M_3);
     cvWaitKey(100);
+    printf("move_base : plot costmap\n");
 /////////////////////////////////////////////// ZACH DEBUG END
 #endif
 ///////////////////////////////////////////
@@ -689,7 +689,9 @@ namespace move_base {
         ROS_DEBUG_NAMED("move_base_plan_thread","Got Plan with %zu points!", planner_plan_->size());
         //pointer swap the plans under mutex (the controller will pull from latest_plan_)
         std::vector<geometry_msgs::PoseStamped>* temp_plan = planner_plan_;
-
+	std::vector<geometry_msgs::PoseStamped> tmp_planner_plan_=*planner_plan_;
+        std::string tmp_string = tmp_planner_plan_[0].header.frame_id;
+        printf("planner_plan_frame_id :%s",tmp_string.c_str());
         lock.lock();
         planner_plan_ = latest_plan_;
         latest_plan_ = temp_plan;
@@ -956,6 +958,7 @@ namespace move_base {
     switch(state_){
       //if we are in a planning state, then we'll attempt to make a plan
       case PLANNING:
+        printf("PLANNING\n");
         {
           boost::mutex::scoped_lock lock(planner_mutex_);
           runPlanner_ = true;
@@ -966,6 +969,7 @@ namespace move_base {
 
       //if we're controlling, we'll attempt to find valid velocity commands
       case CONTROLLING:
+        //printf("CONTROLLING\n");
         ROS_DEBUG_NAMED("move_base","In controlling state.");
 
         //check to see if we've reached our goal
@@ -993,8 +997,10 @@ namespace move_base {
         
         {
          boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(controller_costmap_ros_->getCostmap()->getMutex()));
-        
+               
         if(tc_->computeVelocityCommands(cmd_vel)){
+          printf("[dwa] computeVelocityCommands %f %f \n",cmd_vel.linear.x,cmd_vel.angular.z);
+
           ROS_DEBUG_NAMED( "move_base", "Got a valid command from the local planner: %.3lf, %.3lf, %.3lf",
                            cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.angular.z );
           last_valid_control_ = ros::Time::now();
@@ -1033,6 +1039,7 @@ namespace move_base {
 
       //we'll try to clear out space with any user-provided recovery behaviors
       case CLEARING:
+        printf("CLEARING\n");
         ROS_DEBUG_NAMED("move_base","In clearing/recovery state");
         //we'll invoke whatever recovery behavior we're currently on if they're enabled
         if(recovery_behavior_enabled_ && recovery_index_ < recovery_behaviors_.size()){

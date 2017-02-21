@@ -613,6 +613,7 @@ namespace navfn {
     }
     //publish the plan for visualization purposes
     publishPlan(plan, 0.0, 1.0, 0.0, 0.0);
+#if 0
 ////////////// ZACH DEBUG
     int i=0;
     unsigned int size_of_plan = plan.size();
@@ -668,6 +669,7 @@ namespace navfn {
 
 
 ////////////// ZACH DEBUG END
+#endif
     return !plan.empty();
   }
 

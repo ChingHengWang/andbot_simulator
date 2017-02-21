@@ -14,6 +14,7 @@ find_package(catkin REQUIRED
             roscpp
             tf
         )
+FIND_PACKAGE( OpenCV 2.4.8 REQUIRED )
 
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
@@ -24,6 +25,9 @@ include_directories(
     ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
     )
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/catkin_ws/src/andbot_simulator/navigation/debug/include)
+
 add_definitions(${EIGEN3_DEFINITIONS})
 
 link_directories(${catkin_LIBRARY_DIRS})
@@ -42,8 +46,9 @@ catkin_package(
         roscpp
 )
 
-add_library(dwa_local_planner src/dwa_planner.cpp src/dwa_planner_ros.cpp)
-target_link_libraries(dwa_local_planner ${catkin_LIBRARIES})
+add_library(dwa_local_planner src/dwa_planner.cpp src/dwa_planner_ros.cpp )
+target_link_libraries(dwa_local_planner ${catkin_LIBRARIES} ${OpenCV_LIBS} 
+)
 add_dependencies(dwa_local_planner dwa_local_planner_gencfg)
 add_dependencies(dwa_local_planner nav_msgs_generate_messages_cpp)
 
