@@ -39,6 +39,8 @@
 #include <costmap_2d/static_layer.h>
 #include <costmap_2d/costmap_math.h>
 #include <pluginlib/class_list_macros.h>
+#include <debug/cv_debug_header.h>
+
 
 PLUGINLIB_EXPORT_CLASS(costmap_2d::StaticLayer, costmap_2d::Layer)
 
@@ -163,6 +165,18 @@ unsigned char StaticLayer::interpretValue(unsigned char value)
 
 void StaticLayer::incomingMap(const nav_msgs::OccupancyGridConstPtr& new_map)
 {
+    /*debug*/
+    #if 1
+    cv::Mat M=cv::Mat(new_map->info.height,new_map->info.width,CV_8UC1);
+    memcpy(M.data,new_map->data.data(),new_map->data.size()*sizeof(int8_t));
+    //cv::Mat M_cv=cv::Mat(new_map->info.height,new_map->info.width,CV_8UC1);
+    //createOpenCVDebugMat(M,M_cv);
+    imshow("M_cv_new_map", M);
+    cvWaitKey();
+    #endif
+    /*debug*/
+
+
   unsigned int size_x = new_map->info.width, size_y = new_map->info.height;
 
   ROS_DEBUG("Received a %d X %d map at %f m/pix", size_x, size_y, new_map->info.resolution);
@@ -204,6 +218,21 @@ void StaticLayer::incomingMap(const nav_msgs::OccupancyGridConstPtr& new_map)
       ++index;
     }
   }
+
+    /*debug*/
+    #if 0
+    cv::Mat M=cv::Mat(size_y,size_x,CV_8UC1);
+    memcpy(M.data,costmap_,size_x*size_y*sizeof(int8_t));
+    imshow("costmap_ simulator", M);
+    cvWaitKey();
+    #endif
+    /*debug*/
+
+
+  
+  
+  
+  
   map_frame_ = new_map->header.frame_id;
 
   // we have a new map, update full size of map

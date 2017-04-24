@@ -26,13 +26,19 @@ find_package(PCL REQUIRED)
 remove_definitions(-DDISABLE_LIBUSB-1.0)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system thread)
+find_package(OpenCV 2.4.8 REQUIRED)
+
+
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
-)
+    ${OpenCV_INCLUDE_DIRS}
+    include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/alb/include)
+    include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/debug/include)
+    )
 
 add_definitions(${EIGEN3_DEFINITIONS})
 
@@ -100,9 +106,9 @@ add_library(costmap_2d
 )
 add_dependencies(costmap_2d geometry_msgs_generate_messages_cpp)
 target_link_libraries(costmap_2d
-  ${PCL_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${catkin_LIBRARIES}
+    ${PCL_LIBRARIES}
+    ${Boost_LIBRARIES}
+    ${catkin_LIBRARIES}
 )
 
 add_library(layers
@@ -113,8 +119,9 @@ add_library(layers
   src/observation_buffer.cpp
 )
 target_link_libraries(layers
-  costmap_2d
-)
+    costmap_2d
+    ${OpenCV_LIBRARIES}
+  )
 
 add_dependencies(costmap_2d costmap_2d_gencfg)
 add_dependencies(layers costmap_2d_gencfg)

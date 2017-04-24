@@ -147,8 +147,8 @@ namespace move_base {
       //drawPose(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res);
       drawPointWithSize(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res,2);
     }
-    imshow("planner_costmap ", M_3);
-    cvWaitKey(100);
+    imshow("planner_costmap M_1", M_1);
+    cvWaitKey();
 
 /////////////////////////////////////////////// ZACH DEBUG END
 #endif
@@ -649,13 +649,14 @@ namespace move_base {
     costmap_2d::Costmap2D* costmap_;
     costmap_ = planner_costmap_ros_-> getCostmap();
 
- #if 1
+ #if 0
 /////////////////////////////////////////////// ZACH DEBUG
     unsigned int a = costmap_->getSizeInCellsX();
     unsigned int b = costmap_->getSizeInCellsY();
     double res = costmap_->getResolution();
     double origin_x = costmap_->getOriginX();
     double origin_y = costmap_->getOriginY();
+
     unsigned char* tmp_map;
     tmp_map = costmap_->getCharMap();
     cv::Mat M_1=cv::Mat(b,a,CV_8UC1);
@@ -678,10 +679,12 @@ namespace move_base {
       drawPointWithSize(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res,2);
     }
     drawPointWithSize(M_3,start.pose.position.x,start.pose.position.y,0,255,255,0,origin_x,origin_y,res,10);
-    imshow("costmap ", M_3);
+    imshow("costmap M_1", M_1);
     cvWaitKey(100);
     printf("move_base : plot costmap\n");
-/////////////////////////////////////////////// ZACH DEBUG END
+    printf("originx originy %f %f\n",origin_x,origin_y);
+
+    /////////////////////////////////////////////// ZACH DEBUG END
 #endif
 ///////////////////////////////////////////
 

@@ -2,7 +2,7 @@
 #include <costmap_2d/cost_values.h>
 #include <costmap_2d/costmap_2d.h>
 
-//#include <debug/cv_debug_header.h>
+#include <debug/cv_debug_header.h>
 #include <alb/header.h>
 #include <limits>
 
@@ -34,8 +34,8 @@ void NavfnNoROS::initializeNoRos(costmap_2d::Costmap2D* costmap){
     printf("makePlanNoRos Start \n");
  #if 0
 /////////////////////////////////////////////// ZACH DEBUG
-    unsigned int a = costmap_->getSizeX();
-    unsigned int b = costmap_->getSizeY();
+    unsigned int a = costmap_->getSizeInCellsX();
+    unsigned int b = costmap_->getSizeInCellsY();
     double res = costmap_->getResolution();
     double origin_x = costmap_->getOriginX();
     double origin_y = costmap_->getOriginY();
@@ -48,15 +48,15 @@ void NavfnNoROS::initializeNoRos(costmap_2d::Costmap2D* costmap){
     memcpy(M_1.data,tmp_map,a*b*sizeof(unsigned char));
     flip(M_1,M_1,0);
     cv::Mat M_1_b;
-    createOpenCVDebugMatForCostmap(M_1, M_1_b);
+    //createOpenCVDebugMatForCostmap(M_1, M_1_b);
     cv::Mat M_3;
-    cv::cvtColor( M_1_b, M_3, CV_GRAY2RGB);
+    cv::cvtColor( M_1, M_3, CV_GRAY2RGB);
     //imshow("Nav makePlan costmap M1 ", M_1);
     float sx = start.pose.position.x;
     float sy = start.pose.position.y;
     float gx = goal.pose.position.x;
     float gy = goal.pose.position.y;
-    ROS_INFO("ZACH DEBUG: NoRos sx sy gx gy %f %f %f %f",sx,sy,gx,gy);
+    //ROS_INFO("ZACH DEBUG: NoRos sx sy gx gy %f %f %f %f",sx,sy,gx,gy);
 
 
     drawPointWithSize(M_3,sx,sy,0,0,255,0,origin_x,origin_y,res,7);// green
@@ -64,6 +64,9 @@ void NavfnNoROS::initializeNoRos(costmap_2d::Costmap2D* costmap){
  
 
     imshow("NoRos makePlan costmap ", M_3);
+    for (int i=0;i<10;i++)
+        printf("value %d\n",*(tmp_map+i));
+
     cvWaitKey(100);
 /////////////////////////////////////////////// ZACH DEBUG END
 #endif

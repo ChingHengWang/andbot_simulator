@@ -22,7 +22,7 @@
     <!--<arg name="world_name" value="$(find andbot_robot)/worlds/my_world.world"/>-->
 <!--    <arg name="world_name" value="$(find andbot_robot)/worlds/maze_static_h2.world"/>
 -->
-    <arg name="world_name" value="$(find andbot_robot)/worlds/test_zone.sdf"/>
+    <arg name="world_name" value="$(find andbot_robot)/worlds/maze_static.world"/>
 
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
@@ -72,6 +72,10 @@
 <!--
   <include file="$(find andbot_robot)/launch/robot_mapping.launch" />
 -->
+  <include file="$(find andbot_robot)/launch/amcl.launch" />
+
+
+
 <!--   <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0  0 0 1 1 base_link laser 100" /> 
 
  <node pkg="tf" type="static_transform_publisher" name="proximity_broadcaster" args="0.1 0 0.19  0 0 0 1 base_link proximity 100" />-->

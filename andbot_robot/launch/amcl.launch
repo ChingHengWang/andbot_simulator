@@ -1,6 +1,6 @@
 <launch>
   <!-- Map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find andbot_robot)/map/test_zone.yaml" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find andbot_robot)/map/simple_maze.yaml" />
 
   <!-- AMCL -->
   <arg name="custom_amcl_launch_file" default="$(find andbot_robot)/config/amcl.xml"/>

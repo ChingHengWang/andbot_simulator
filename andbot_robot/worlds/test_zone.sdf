@@ -358,7 +358,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/base_part.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/base_part.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -377,7 +377,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/asus_camera_simple.dae</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/asus_camera_simple.dae</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -417,7 +417,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -436,7 +436,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -455,7 +455,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -474,7 +474,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -493,7 +493,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -512,7 +512,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -531,7 +531,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -550,7 +550,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -569,7 +569,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -588,7 +588,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -607,7 +607,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -626,7 +626,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -645,7 +645,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/lidar_XV-11.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/lidar_XV-11.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -675,7 +675,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/base_part.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/base_part.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -690,7 +690,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/asus_camera_simple.dae</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/asus_camera_simple.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -713,7 +713,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -728,7 +728,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -743,7 +743,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link1.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -758,7 +758,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/arm_link2.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -773,7 +773,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -782,7 +782,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -791,7 +791,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -800,7 +800,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -809,7 +809,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -818,7 +818,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -827,7 +827,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -836,7 +836,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/sonar_HC_SR04.STL</uri>
             </mesh>
           </geometry>
         </visual>
@@ -845,7 +845,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/lidar_XV-11.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/lidar_XV-11.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -1311,7 +1311,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/head.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/head.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1330,7 +1330,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/head.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/head.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -1379,7 +1379,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1404,7 +1404,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -1453,7 +1453,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
             </mesh>
           </geometry>
           <surface>
@@ -1478,7 +1478,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/zach/catkin_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
+              <uri>/home/zach/noros_ws/src/andbot_simulator/andbot_robot/robot_description/mesh/wheel-D152_SMALL.STL</uri>
             </mesh>
           </geometry>
           <material>

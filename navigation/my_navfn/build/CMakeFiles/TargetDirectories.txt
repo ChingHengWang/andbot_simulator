@@ -1,1 +1,0 @@
-/home/zach/catkin_ws/src/andbot_simulator/navigation/my_navfn/build/CMakeFiles/my_navfn.dir

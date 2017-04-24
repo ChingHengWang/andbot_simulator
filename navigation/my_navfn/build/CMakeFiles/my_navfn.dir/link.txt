@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -std=c++11 -g   -shared -Wl,-soname,libmy_navfn.so -o ../lib/libmy_navfn.so CMakeFiles/my_navfn.dir/src/navfn.cpp.o CMakeFiles/my_navfn.dir/src/navfn_no_ros.cpp.o  -L/home/zach/catkin_ws/src/andbot_simulator/navigation/my_navfn/lib 

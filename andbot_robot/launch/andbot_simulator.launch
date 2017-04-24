@@ -22,7 +22,7 @@
     <!--<arg name="world_name" value="$(find andbot_robot)/worlds/my_world.world"/>-->
 <!--    <arg name="world_name" value="$(find andbot_robot)/worlds/maze_static_h2.world"/>
 -->
-    <arg name="world_name" value="$(find andbot_robot)/worlds/test_zone.sdf"/>
+    <arg name="world_name" value="$(find andbot_robot)/worlds/maze_static.world"/>
 
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
