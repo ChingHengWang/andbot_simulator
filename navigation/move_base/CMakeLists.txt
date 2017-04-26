@@ -35,11 +35,10 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
 )
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/alb/include)
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/debug/include)
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/my_navfn/include)
+include_directories(/home/zach/noros_ws/src/debug_costmap_simulator/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/noros_ws/src/debug_costmap_simulator/andbot_simulator/navigation/debug/include)
 
-LINK_DIRECTORIES(/home/zach/noros_ws/src/andbot_simulator/navigation/my_navfn/lib)
+
 # move_base
 add_library(move_base
   src/move_base.cpp
@@ -48,7 +47,7 @@ target_link_libraries(move_base
     ${Boost_LIBRARIES}
     ${catkin_LIBRARIES}
     ${OpenCV_LIBS}
-    libmy_navfn.so
+
     )
 add_dependencies(move_base move_base_gencfg)
 add_dependencies(move_base geometry_msgs_generate_messages_cpp)

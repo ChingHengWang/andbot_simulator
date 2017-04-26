@@ -6,6 +6,32 @@
 #include <opencv/cvaux.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <string>
+
+cv::Mat plotCharGridMap(unsigned char* tmp_map , unsigned int size_x, unsigned int size_y , std::string tmp_str)
+{ 
+
+    cv::Mat M_1=cv::Mat(size_y,size_x,CV_8UC1);
+    memcpy(M_1.data,tmp_map,size_x*size_y*sizeof(unsigned char));
+    flip(M_1,M_1,0);
+    // 
+    //cv::Mat M_1_b;
+    //createOpenCVDebugMatForCostmap(M_1, M_1_b);
+    // 3 channel Mat
+    cv::Mat M_3;
+    cv::cvtColor( M_1, M_3, CV_GRAY2RGB);
+    //imshow(tmp_str.c_str(), M_3);
+/*
+    printf("[cv_debug_header.h] : cvWaitKey()\n");
+    cvWaitKey();
+    cvWaitKey();
+    printf("[cv_debug_header.h] : cvWaitKey()\n");
+*/
+    return M_3;
+}
+
+
+
 
 void createOpenCVDebugMat(cv::Mat const& src, cv::Mat& dst)
 {

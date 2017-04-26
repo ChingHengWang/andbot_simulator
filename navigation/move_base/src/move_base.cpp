@@ -43,7 +43,6 @@
 
 #include <geometry_msgs/Twist.h>
 #include <debug/cv_debug_header.h>
-#include <my_navfn/navfn_no_ros.h>
 
 namespace move_base {
 
@@ -54,7 +53,7 @@ namespace move_base {
     bgp_loader_("nav_core", "nav_core::BaseGlobalPlanner"),
     blp_loader_("nav_core", "nav_core::BaseLocalPlanner"), 
     recovery_loader_("nav_core", "nav_core::RecoveryBehavior"),
-    planner_plan_(NULL), latest_plan_(NULL), controller_plan_(NULL),test_plan_(NULL),
+    planner_plan_(NULL), latest_plan_(NULL), controller_plan_(NULL),
     runPlanner_(false), setup_(false), p_freq_change_(false), c_freq_change_(false), new_global_plan_(false) {
 
     as_ = new MoveBaseActionServer(ros::NodeHandle(), "move_base", boost::bind(&MoveBase::executeCb, this, _1), false);
@@ -82,8 +81,7 @@ namespace move_base {
     planner_plan_ = new std::vector<geometry_msgs::PoseStamped>();
     latest_plan_ = new std::vector<geometry_msgs::PoseStamped>();
     controller_plan_ = new std::vector<geometry_msgs::PoseStamped>();
-    test_plan_ = new std::vector<Header::PoseStamped>();
- 
+
     //set up the planner's thread
     planner_thread_ = new boost::thread(boost::bind(&MoveBase::planThread, this));
 
@@ -113,56 +111,11 @@ namespace move_base {
     //create the ros wrapper for the planner's costmap... and initializer a pointer we'll use with the underlying map
     planner_costmap_ros_ = new costmap_2d::Costmap2DROS("global_costmap", tf_);
     planner_costmap_ros_->pause();
-    //planner_costmap_ros_->start();
-
-  #if 0
-/////////////////////////////////////////////// ZACH DEBUG
-
-    costmap_2d::Costmap2D* tmp_costmap_;
-    tmp_costmap_ = planner_costmap_ros_-> getCostmap();
-
-    unsigned int a = tmp_costmap_->getSizeInCellsX();
-    unsigned int b = tmp_costmap_->getSizeInCellsY();
-    double res = tmp_costmap_->getResolution();
-    double origin_x = tmp_costmap_->getOriginX();
-    double origin_y = tmp_costmap_->getOriginY();
-    unsigned char* tmp_map;
-    tmp_map = tmp_costmap_->getCharMap();
-    cv::Mat M_1=cv::Mat(b,a,CV_8UC1);
-    memcpy(M_1.data,tmp_map,a*b*sizeof(unsigned char));
-    flip(M_1,M_1,0);
-    cv::Mat M_1_b;
-    createOpenCVDebugMatForCostmap(M_1, M_1_b);
-    cv::Mat M_3;
-    cv::cvtColor( M_1_b, M_3, CV_GRAY2RGB);
-    int i=0;
-    std::vector<Header::PoseStamped> tmp_plan_ = *test_plan_;
-    unsigned int size_of_plan = tmp_plan_.size();
-    double plan_x = 0, plan_y = 0;
-    while(i<size_of_plan){
-      plan_x = tmp_plan_[i].pose.position.x;
-      plan_y = tmp_plan_[i].pose.position.y;
-      //printf("ZACH DEBUG : size is %d path is %f %f\n",size_of_plan,plan_x,plan_y);
-      i++;
-      //drawPose(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res);
-      drawPointWithSize(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res,2);
-    }
-    imshow("planner_costmap M_1", M_1);
-    cvWaitKey();
-
-/////////////////////////////////////////////// ZACH DEBUG END
-#endif
-
 
     //initialize the global planner
     try {
       planner_ = bgp_loader_.createInstance(global_planner);
       planner_->initialize(bgp_loader_.getName(global_planner), planner_costmap_ros_);
-
-      test_planner_ = new navfn::NavfnNoROS();
-      test_planner_->initializeNoRos(planner_costmap_ros_->getCostmap());
-
-
     } catch (const pluginlib::PluginlibException& ex) {
       ROS_FATAL("Failed to create the %s planner, are you sure it is properly registered and that the containing library is built? Exception: %s", global_planner.c_str(), ex.what());
       exit(1);
@@ -185,7 +138,6 @@ namespace move_base {
     // Start actively updating costmaps based on sensor data
     planner_costmap_ros_->start();
     controller_costmap_ros_->start();
-
 
     //advertise a service for getting a plan
     make_plan_srv_ = private_nh.advertiseService("make_plan", &MoveBase::planService, this);
@@ -594,22 +546,16 @@ namespace move_base {
   }
 
   void MoveBase::planThread(){
-    printf("move_base_plan_thread Starting planner thread...\n");
+    ROS_DEBUG_NAMED("move_base_plan_thread","Starting planner thread...");
     ros::NodeHandle n;
     ros::Timer timer;
     bool wait_for_wake = false;
-
     boost::unique_lock<boost::mutex> lock(planner_mutex_);
-    printf("move_base_plan_thread lock free\n");
-
-
     while(n.ok()){
-    printf("move_base_plan_thread In Loop...\n");
-
       //check if we should run the planner (the mutex is locked)
       while(wait_for_wake || !runPlanner_){
         //if we should not be running the planner then suspend this thread
-        printf("move_base_plan_thread Planner thread is suspending\n");
+        ROS_DEBUG_NAMED("move_base_plan_thread","Planner thread is suspending");
         planner_cond_.wait(lock);
         wait_for_wake = false;
       }
@@ -618,83 +564,17 @@ namespace move_base {
       //time to plan! get a copy of the goal and unlock the mutex
       geometry_msgs::PoseStamped temp_goal = planner_goal_;
       lock.unlock();
-      printf("move_base_plan_thread Planning...\n");
+      ROS_DEBUG_NAMED("move_base_plan_thread","Planning...");
 
       //run planner
       planner_plan_->clear();
       bool gotPlan = n.ok() && makePlan(temp_goal, *planner_plan_);
-      //bool gotPlan = true;
-
-    //run planner
-    test_plan_->clear();
-    //get the starting pose of the robot
-    tf::Stamped<tf::Pose> global_pose;
-    if(!planner_costmap_ros_->getRobotPose(global_pose)) {
-      ROS_WARN("Unable to get starting pose of robot, unable to create global plan");
-    }
-    geometry_msgs::PoseStamped start;
-    tf::poseStampedTFToMsg(global_pose, start);
-
-
-    Header::PoseStamped startH,goalH;
-    startH.pose.position.x = start.pose.position.x;
-    startH.pose.position.y = start.pose.position.y;
-    goalH.pose.position.x = temp_goal.pose.position.x;
-    goalH.pose.position.y = temp_goal.pose.position.y;
-
-
-    test_planner_->makePlanNoRos(startH,goalH,0.0,*test_plan_);
-
-////////////////////////////////////////////
-    costmap_2d::Costmap2D* costmap_;
-    costmap_ = planner_costmap_ros_-> getCostmap();
-
- #if 0
-/////////////////////////////////////////////// ZACH DEBUG
-    unsigned int a = costmap_->getSizeInCellsX();
-    unsigned int b = costmap_->getSizeInCellsY();
-    double res = costmap_->getResolution();
-    double origin_x = costmap_->getOriginX();
-    double origin_y = costmap_->getOriginY();
-
-    unsigned char* tmp_map;
-    tmp_map = costmap_->getCharMap();
-    cv::Mat M_1=cv::Mat(b,a,CV_8UC1);
-    memcpy(M_1.data,tmp_map,a*b*sizeof(unsigned char));
-    flip(M_1,M_1,0);
-    cv::Mat M_1_b;
-    createOpenCVDebugMatForCostmap(M_1, M_1_b);
-    cv::Mat M_3;
-    cv::cvtColor( M_1_b, M_3, CV_GRAY2RGB);
-    int i=0;
-    std::vector<Header::PoseStamped> tmp_plan_ = *test_plan_;
-    unsigned int size_of_plan = tmp_plan_.size();
-    double plan_x = 0, plan_y = 0;
-    while(i<size_of_plan){
-      plan_x = tmp_plan_[i].pose.position.x;
-      plan_y = tmp_plan_[i].pose.position.y;
-      //printf("ZACH DEBUG : size is %d path is %f %f\n",size_of_plan,plan_x,plan_y);
-      i++;
-      //drawPose(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res);
-      drawPointWithSize(M_3,plan_x,plan_y,0,255,0,0,origin_x,origin_y,res,2);
-    }
-    drawPointWithSize(M_3,start.pose.position.x,start.pose.position.y,0,255,255,0,origin_x,origin_y,res,10);
-    imshow("costmap M_1", M_1);
-    cvWaitKey(100);
-    printf("move_base : plot costmap\n");
-    printf("originx originy %f %f\n",origin_x,origin_y);
-
-    /////////////////////////////////////////////// ZACH DEBUG END
-#endif
-///////////////////////////////////////////
 
       if(gotPlan){
         ROS_DEBUG_NAMED("move_base_plan_thread","Got Plan with %zu points!", planner_plan_->size());
         //pointer swap the plans under mutex (the controller will pull from latest_plan_)
         std::vector<geometry_msgs::PoseStamped>* temp_plan = planner_plan_;
-	std::vector<geometry_msgs::PoseStamped> tmp_planner_plan_=*planner_plan_;
-        std::string tmp_string = tmp_planner_plan_[0].header.frame_id;
-        printf("planner_plan_frame_id :%s",tmp_string.c_str());
+
         lock.lock();
         planner_plan_ = latest_plan_;
         latest_plan_ = temp_plan;
@@ -961,7 +841,6 @@ namespace move_base {
     switch(state_){
       //if we are in a planning state, then we'll attempt to make a plan
       case PLANNING:
-        printf("PLANNING\n");
         {
           boost::mutex::scoped_lock lock(planner_mutex_);
           runPlanner_ = true;
@@ -972,7 +851,6 @@ namespace move_base {
 
       //if we're controlling, we'll attempt to find valid velocity commands
       case CONTROLLING:
-        //printf("CONTROLLING\n");
         ROS_DEBUG_NAMED("move_base","In controlling state.");
 
         //check to see if we've reached our goal
@@ -1000,10 +878,8 @@ namespace move_base {
         
         {
          boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(controller_costmap_ros_->getCostmap()->getMutex()));
-               
+        
         if(tc_->computeVelocityCommands(cmd_vel)){
-          printf("[dwa] computeVelocityCommands %f %f \n",cmd_vel.linear.x,cmd_vel.angular.z);
-
           ROS_DEBUG_NAMED( "move_base", "Got a valid command from the local planner: %.3lf, %.3lf, %.3lf",
                            cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.angular.z );
           last_valid_control_ = ros::Time::now();
@@ -1042,7 +918,6 @@ namespace move_base {
 
       //we'll try to clear out space with any user-provided recovery behaviors
       case CLEARING:
-        printf("CLEARING\n");
         ROS_DEBUG_NAMED("move_base","In clearing/recovery state");
         //we'll invoke whatever recovery behavior we're currently on if they're enabled
         if(recovery_behavior_enabled_ && recovery_index_ < recovery_behaviors_.size()){

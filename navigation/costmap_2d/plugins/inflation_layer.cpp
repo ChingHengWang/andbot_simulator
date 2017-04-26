@@ -41,7 +41,8 @@
 #include <costmap_2d/footprint.h>
 #include <boost/thread.hpp>
 #include <pluginlib/class_list_macros.h>
-
+#include <string>
+#include <debug/cv_debug_header.h>
 PLUGINLIB_EXPORT_CLASS(costmap_2d::InflationLayer, costmap_2d::Layer)
 
 using costmap_2d::LETHAL_OBSTACLE;
@@ -150,10 +151,17 @@ void InflationLayer::updateBounds(double robot_x, double robot_y, double robot_y
     last_min_y_ = *min_y;
     last_max_x_ = *max_x;
     last_max_y_ = *max_y;
+    //[zachDebug]
+    //printf("[inflation_layer] tmp_min_x:%f,min_x:%f\n",tmp_min_x,*min_x);
+
     *min_x = std::min(tmp_min_x, *min_x) - inflation_radius_;
     *min_y = std::min(tmp_min_y, *min_y) - inflation_radius_;
     *max_x = std::max(tmp_max_x, *max_x) + inflation_radius_;
     *max_y = std::max(tmp_max_y, *max_y) + inflation_radius_;
+    //[zachDebug]
+    //printf("[inflation_layer] inflation_r %f min_x_result:%f\n",inflation_radius_,*min_x);
+
+
   }
 }
 
@@ -172,12 +180,14 @@ void InflationLayer::onFootprintChanged()
 void InflationLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, int min_j, int max_i,
                                           int max_j)
 {
+   
   boost::unique_lock < boost::recursive_mutex > lock(*inflation_access_);
   if (!enabled_)
     return;
 
   // make sure the inflation queue is empty at the beginning of the cycle (should always be true)
   ROS_ASSERT_MSG(inflation_queue_.empty(), "The inflation queue must be empty at the beginning of inflation");
+
 
   unsigned char* master_array = master_grid.getCharMap();
   unsigned int size_x = master_grid.getSizeInCellsX(), size_y = master_grid.getSizeInCellsY();
@@ -219,9 +229,27 @@ void InflationLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, 
       if (cost == LETHAL_OBSTACLE)
       {
         enqueue(index, i, j, i, j);
+        //[zachDebug]
+        //printf("[inflation_layer] lethal obstacle i:%d j:%d cost:%d\n",i,j,cost);
+        //getchar();
+ 
       }
     }
   }
+
+  //[zachDebug]
+  /*
+  printf("[inflation_layer] show the inflation_queue \n"); 
+  for (int j = min_j; j < max_j; j++)
+  {
+    for (int i = min_i; i < max_i; i++)
+    {
+      int index = master_grid.getIndex(i, j);
+
+      printf("[inflation_layer] inflation_queue_distance[%d] : %f\n",index,inflation_queue_[index].distance_); 
+     }
+  }
+  */
 
   while (!inflation_queue_.empty())
   {
@@ -234,6 +262,12 @@ void InflationLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, 
     unsigned int sx = current_cell.src_x_;
     unsigned int sy = current_cell.src_y_;
 
+    /*
+    //[zachDebug]
+    printf("[inflation_layer] highest priority cell index : %d\n",index); 
+    printf("[inflation_layer] highest priority cell distance : %f\n",current_cell.distance_); 
+    printf("[inflation_layer] inflation_queue_ size : %ld\n",inflation_queue_.size()); 
+    */
     // pop once we have our cell info
     inflation_queue_.pop();
 
@@ -252,7 +286,7 @@ void InflationLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, 
       master_array[index] = cost;
     else
       master_array[index] = std::max(old_cost, cost);
-
+    printf("[inflation layer] : old_cost %d cost %d \n" , old_cost , cost);
     // attempt to put the neighbors of the current cell onto the queue
     if (mx > 0)
       enqueue(index - 1, mx - 1, my, sx, sy);
@@ -263,6 +297,23 @@ void InflationLayer::updateCosts(costmap_2d::Costmap2D& master_grid, int min_i, 
     if (my < size_y - 1)
       enqueue(index + size_x, mx, my + 1, sx, sy);
   }
+
+  //[zachDebug]
+  //printf("[inflation_layer] inflation_queue_ size : %ld\n",inflation_queue_.size()); 
+  //getchar();
+
+  // zach debug
+  /*
+  {
+  cv::Mat M_1=cv::Mat(master_grid.getSizeInCellsY(),master_grid.getSizeInCellsX(),CV_8UC1);
+  memcpy(M_1.data,master_grid.getCharMap(),master_grid.getSizeInCellsX()*master_grid.getSizeInCellsY()*sizeof(unsigned char));
+  //flip(M_1,M_1,0);
+  //cv::Mat M_3;
+  //cv::cvtColor( M_1, M_3, CV_GRAY2RGB);
+  imshow("yy",M_1);
+  cvWaitKey();
+  }
+  */
 }
 
 /**

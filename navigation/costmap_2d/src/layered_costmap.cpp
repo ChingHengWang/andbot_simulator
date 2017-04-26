@@ -78,7 +78,7 @@ void LayeredCostmap::resizeMap(unsigned int size_x, unsigned int size_y, double 
 
 void LayeredCostmap::updateMap(double robot_x, double robot_y, double robot_yaw)
 {
-  // Lock for the remainder of this function, some plugins (e.g. VoxelLayer)
+ // Lock for the remainder of this function, some plugins (e.g. VoxelLayer)
   // implement thread unsafe updateBounds() functions.
   boost::unique_lock<Costmap2D::mutex_t> lock(*(costmap_.getMutex()));
 
@@ -88,6 +88,8 @@ void LayeredCostmap::updateMap(double robot_x, double robot_y, double robot_yaw)
     double new_origin_x = robot_x - costmap_.getSizeInMetersX() / 2;
     double new_origin_y = robot_y - costmap_.getSizeInMetersY() / 2;
     costmap_.updateOrigin(new_origin_x, new_origin_y);
+ 
+   
   }
 
   if (plugins_.size() == 0)
@@ -95,7 +97,7 @@ void LayeredCostmap::updateMap(double robot_x, double robot_y, double robot_yaw)
 
   minx_ = miny_ = 1e30;
   maxx_ = maxy_ = -1e30;
-
+ 
   for (vector<boost::shared_ptr<Layer> >::iterator plugin = plugins_.begin(); plugin != plugins_.end();
        ++plugin)
   {
@@ -112,6 +114,7 @@ void LayeredCostmap::updateMap(double robot_x, double robot_y, double robot_yaw)
                         minx_, miny_, maxx_ , maxy_,
                         (*plugin)->getName().c_str());
     }
+    
   }
 
   int x0, xn, y0, yn;

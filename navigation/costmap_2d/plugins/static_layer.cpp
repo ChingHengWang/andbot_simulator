@@ -39,7 +39,7 @@
 #include <costmap_2d/static_layer.h>
 #include <costmap_2d/costmap_math.h>
 #include <pluginlib/class_list_macros.h>
-#include <debug/cv_debug_header.h>
+//#include <debug/cv_debug_header.h>
 
 
 PLUGINLIB_EXPORT_CLASS(costmap_2d::StaticLayer, costmap_2d::Layer)
@@ -166,7 +166,7 @@ unsigned char StaticLayer::interpretValue(unsigned char value)
 void StaticLayer::incomingMap(const nav_msgs::OccupancyGridConstPtr& new_map)
 {
     /*debug*/
-    #if 1
+    #if 0
     cv::Mat M=cv::Mat(new_map->info.height,new_map->info.width,CV_8UC1);
     memcpy(M.data,new_map->data.data(),new_map->data.size()*sizeof(int8_t));
     //cv::Mat M_cv=cv::Mat(new_map->info.height,new_map->info.width,CV_8UC1);

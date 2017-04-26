@@ -64,13 +64,17 @@ Costmap2DROS::Costmap2DROS(std::string name, tf::TransformListener& tf) :
     robot_stopped_(false), map_update_thread_(NULL), last_publish_(0),
     plugin_loader_("costmap_2d", "costmap_2d::Layer"), publisher_(NULL)
 {
+  //[zachDebug]
+  printf("[costmap_2d_ros] costmap name %s\n",name.c_str()); // nothing
+
   ros::NodeHandle private_nh("~/" + name);
   ros::NodeHandle g_nh;
 
   // get our tf prefix
   ros::NodeHandle prefix_nh;
   std::string tf_prefix = tf::getPrefixParam(prefix_nh);
-
+  //[zachDebug]
+  printf("[costmap_2d_ros] tf_prefix %s\n",tf_prefix.c_str()); // nothing
   // get two frames
   private_nh.param("global_frame", global_frame_, std::string("/map"));
   private_nh.param("robot_base_frame", robot_base_frame_, std::string("base_link"));
@@ -78,6 +82,9 @@ Costmap2DROS::Costmap2DROS(std::string name, tf::TransformListener& tf) :
   // make sure that we set the frames appropriately based on the tf_prefix
   global_frame_ = tf::resolve(tf_prefix, global_frame_);
   robot_base_frame_ = tf::resolve(tf_prefix, robot_base_frame_);
+  //[zachDebug]
+  printf("[costmap_2d_ros] global_frame %s\n",global_frame_.c_str()); // odom
+  printf("[costmap_2d_ros] robot_base_frame %s\n",robot_base_frame_.c_str()); // base_footprint
 
   ros::Time last_error = ros::Time::now();
   std::string tf_error;
@@ -104,22 +111,47 @@ Costmap2DROS::Costmap2DROS(std::string name, tf::TransformListener& tf) :
   private_nh.param("track_unknown_space", track_unknown_space, false);
   private_nh.param("always_send_full_costmap", always_send_full_costmap, false);
 
+  //[zachDebug]
+  printf("[costmap_2d_ros] rolling_window: %d\n",rolling_window); // 1
+  printf("[costmap_2d_ros] track_unknow_space %d\n",track_unknown_space); // 0
+  printf("[costmap_2d_ros] always_send_full_costmap %d\n",always_send_full_costmap); // 0
+
+
+
   layered_costmap_ = new LayeredCostmap(global_frame_, rolling_window, track_unknown_space);
 
   if (!private_nh.hasParam("plugins"))
   {
-    resetOldParameters(private_nh);
+      //[zachDebug]
+      printf("[costmap_2d_ros] private_nh.hasparam(\"plugins\"): %d \n",private_nh.hasParam("plugins")); // come here and set parameter
+      printf("[costmap_2d_ros] resetOldParameters \n"); // come here and set parameter
+
+      resetOldParameters(private_nh);
+      printf("[costmap_2d_ros] private_nh.hasparam(\"plugins\"): %d \n",private_nh.hasParam("plugins")); // come here and set parameter
+ 
   }
 
-  if (private_nh.hasParam("plugins"))
+  if (private_nh.hasParam("plugins")) 
   {
+    //[zachDebug]
+    printf("[costmap_2d_ros] has Parameters \n"); // come here becuase already set old parameters
+
+     
     XmlRpc::XmlRpcValue my_list;
     private_nh.getParam("plugins", my_list);
+    //[zachDebug]
+    printf("[costmap_2d_ros] my_list.size(): %d\n",my_list.size()); // obstacle_layer inflation_layer
+ 
     for (int32_t i = 0; i < my_list.size(); ++i)
     {
       std::string pname = static_cast<std::string>(my_list[i]["name"]);
       std::string type = static_cast<std::string>(my_list[i]["type"]);
       ROS_INFO("Using plugin \"%s\"", pname.c_str());
+
+      //[zachDebug]
+      printf("[costmap_2d_ros] plugin name %s\n",pname.c_str()); // obstacle_layer inflation_layer
+      printf("[costmap_2d_ros] plugin type %s\n",type.c_str()); // costmap_2d::ObstacleLayer costmap_2d::InflationLayer
+
 
       boost::shared_ptr<Layer> plugin = plugin_loader_.createInstance(type);
       layered_costmap_->addPlugin(plugin);
@@ -238,6 +270,25 @@ void Costmap2DROS::resetOldParameters(ros::NodeHandle& nh)
   move_parameter(nh, obstacles, "obstacle_range");
   move_parameter(nh, obstacles, "track_unknown_space", true);
   nh.param("observation_sources", s, std::string(""));
+  //[zachDebug]
+  /*
+  printf("[costmap_2d_ros] observation sources %s\n",s.c_str()); // 
+
+  double tmp = 0.0;
+  int tmpi = -1 ;
+  obstacles.param("raytrace_range",tmp,double(1.0));
+  printf("[costmap_2d_ros] obstacle raytrace_range %f\n",tmp); // 
+
+  obstacles.param("obstacle_range",tmp,double(1.0));
+  printf("[costmap_2d_ros] obstacle obstacle_range %f\n",tmp); // 
+
+  obstacles.param("max_obstacle_height",tmp,double(1.0));
+  printf("[costmap_2d_ros] obstacle max_obstacle_height %f\n",tmp); // 
+   
+  obstacles.param("track_unknow_space",tmpi,int(-100));
+  printf("[costmap_2d_ros] obstacle track_unknow_space %d\n",tmpi); // 
+  */
+
   std::stringstream ss(s);
   std::string source;
   while (ss >> source)

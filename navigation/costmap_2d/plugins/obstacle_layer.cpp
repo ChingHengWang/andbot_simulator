@@ -406,10 +406,17 @@ void ObstacleLayer::updateBounds(double robot_x, double robot_y, double robot_ya
       unsigned int index = getIndex(mx, my);
       costmap_[index] = LETHAL_OBSTACLE;
       touch(px, py, min_x, min_y, max_x, max_y);
+
+
+
     }
   }
 
   updateFootprint(robot_x, robot_y, robot_yaw, min_x, min_y, max_x, max_y);
+  //[zachDebug]
+  //printf("[obstacle_layer] min_x:%f\n",*min_x);
+
+
 }
 
 void ObstacleLayer::updateFootprint(double robot_x, double robot_y, double robot_yaw, double* min_x, double* min_y,
