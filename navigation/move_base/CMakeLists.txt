@@ -35,11 +35,11 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
 )
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/alb/include)
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/debug/include)
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/my_navfn/include)
+include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/debug/include)
+include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/my_navfn/include)
 
-LINK_DIRECTORIES(/home/zach/noros_ws/src/andbot_simulator/navigation/my_navfn/lib)
+LINK_DIRECTORIES(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/my_navfn/lib)
 # move_base
 add_library(move_base
   src/move_base.cpp

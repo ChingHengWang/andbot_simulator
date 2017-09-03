@@ -36,8 +36,8 @@ include_directories(
     ${PCL_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
-    include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/alb/include)
-    include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/debug/include)
+    include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/alb/include)
+    include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/debug/include)
     )
 
 add_definitions(${EIGEN3_DEFINITIONS})

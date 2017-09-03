@@ -11,8 +11,8 @@ FIND_PACKAGE( OpenCV 2.4.8 REQUIRED )
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    /home/zach/noros_ws/src/andbot_simulator/navigation/alb/include
-    /home/zach/noros_ws/src/andbot_simulator/navigation/debug/include
+    /home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/alb/include
+    /home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/debug/include
     ${OpenCV_INCLUDE_DIRS}
     )    
 MESSAGE(STATUS "CPATH dir: $ENV{CPATH}")

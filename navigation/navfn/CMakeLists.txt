@@ -28,8 +28,8 @@ include_directories(
     ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
 )
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/alb/include)
-include_directories(/home/zach/noros_ws/src/andbot_simulator/navigation/debug/include)
+include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/alb/include)
+include_directories(/home/zach/noros_ws/src/debug_navfn_simulator/andbot_simulator/navigation/debug/include)
 
 
 
