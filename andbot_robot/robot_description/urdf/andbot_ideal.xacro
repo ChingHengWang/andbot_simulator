@@ -14,7 +14,7 @@
   <xacro:property name="distance_between_wheels" value="0.393"/>
   <xacro:property name="height_wheels_from_base" value="0.0392"/>
  
- <arg name="gui" value="true"/>
+ <arg name="gui" value="true" default="true"/>
   <!-- Base footprint link-->
   <link name="base_footprint"/>
 
